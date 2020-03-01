@@ -19,4 +19,8 @@ router.patch('/set-clip-false/:id', checkAuth, NoteController.set_note_clip_fals
 
 router.delete('/delete/:id', checkAuth, NoteController.delete_note)
 
+router.patch('/delete_to_trash/:id', checkAuth, NoteController.delete_note_to_trash)
+
+router.patch('/restore/:id', checkAuth, NoteController.restore_note)
+
 module.exports = router

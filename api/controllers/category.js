@@ -71,7 +71,6 @@ exports.delete_cate = (req, res, next) => {
 exports.update_cate = (req, res, next) => {
     const id = req.params.cateId;
     const data = req.body;
-    console.log(data);
 
     Category.find({ _id: id })
         .updateOne({ $set: data })
@@ -90,3 +89,4 @@ exports.update_cate = (req, res, next) => {
             })
         })
 }
+

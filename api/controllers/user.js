@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken')
 const User = require('./../models/user')
 
 exports.user_login = (req, res, next) => {
+    console.log(req.body.email, req.body.password);
+
     User.find({ email: req.body.email })
         .exec()
         .then(user => {
@@ -28,8 +30,29 @@ exports.user_login = (req, res, next) => {
                             expiresIn: "1d"
                         },
                     )
+
+                    User.find({ _id: user[0]._id })
+                        .updateOne({ $set: { token: token } })
+                        .exec()
+                        .then(result => {
+                            if (result) {
+                                console.log(
+                                    {
+                                        data: result,
+                                        message: "success",
+                                        msg: "update token thanh cong"
+                                    }
+                                );
+
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err, 'loi cap nhat token');
+
+                        })
+
                     return res.status(200).json({
-                        ms: 'thanh cong',
+                        ms: 'dang nhap thanh cong',
                         token
                     })
                 }
@@ -48,7 +71,7 @@ exports.get_user = (req, res, next) => {
                 rs
             })
         })
-        .catch(err =>{
+        .catch(err => {
             console.log(err);
             res.status(500).json({
                 err
@@ -107,6 +130,29 @@ exports.delete_user = (req, res, next) => {
             console.log(err);
             res.status(500).json({
                 err
+            })
+        })
+}
+
+exports.check_token = (req, res, next) => {
+    User.findOne({ token: req.body.token })
+        .exec()
+        .then(rs => {
+            if (rs)
+                return res.status(200).json({
+                    rs: true
+                })
+            else 
+                return res.status(200).json({
+                    rs : false,
+                    ms: 'not found'
+                })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(200).json({
+                err,
+                rs: false
             })
         })
 }

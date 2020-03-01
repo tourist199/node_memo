@@ -10,5 +10,7 @@ router.post("/signup", UserController.sign_up)
 
 router.delete("/:userId", UserController.delete_user)
 
+router.post("/check-token", UserController.check_token)
+
 
 module.exports = router
