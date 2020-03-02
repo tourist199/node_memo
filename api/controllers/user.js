@@ -27,7 +27,7 @@ exports.user_login = (req, res, next) => {
                     },
                         process.env.JWT_KEY,
                         {
-                            expiresIn: "1d"
+                            expiresIn: "9999999d"
                         },
                     )
 
