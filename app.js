@@ -14,8 +14,8 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology',true );
-
-mongoose.connect('mongodb+srv://khanhadmin:'+process.env.MONGO_ATLAS_PW+'@db-memo-vkzsl.mongodb.net/test?retryWrites=true&w=majority')
+const URL = "mongodb+srv://khanhadmin:'+process.env.MONGO_ATLAS_PW+'@db-memo-vkzsl.mongodb.net/test?retryWrites=true&w=majority";
+mongoose.connect(process.env.MONGODB_URI)
 mongoose.Promise = global.Promise
 
 
