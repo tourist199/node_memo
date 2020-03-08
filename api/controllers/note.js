@@ -13,13 +13,21 @@ exports.new_note = (req, res, next) => {
                     err: "user not found1"
                 })
             }
-
+            console.log({
+                title: req.body.title,
+                createDate: req.body.createDate? moment(req.body.createDate): moment(),
+                content: req.body.content,
+                category: req.body.category,
+                userId: userData.userId,
+                clip: false
+            },'khanh');
+            
             const temp = new Note({
                 _id: mongoose.Types.ObjectId(),
                 title: req.body.title,
                 createDate: moment(),
                 content: req.body.content,
-                category: req.body.category,
+                category: req.body.category?req.body.category:null,
                 userId: userData.userId,
                 clip: false
             })
@@ -100,11 +108,32 @@ exports.get_notes_by_id = (req, res, next) => {
 exports.update_note = (req, res, next) => {
     const id = req.params.id;
     const data = req.body;
-    var d = new Date();
-    d.setUTCHours(d.getUTCHours() - (d.getTimezoneOffset() / 60));
-    req.body.createDate = d
+    // var d = new Date();
+    // d.setUTCHours(d.getUTCHours() - (d.getTimezoneOffset() / 60));
+    // req.body.createDate = d
     Note.find({ _id: id })
         .updateOne({ $set: data })
+        .exec()
+        .then(result => {
+            if (result) {
+                res.status(200).json({
+                    data: result,
+                    message: "success"
+                })
+            }
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            })
+        })
+}
+
+exports.change_note_idCate = (req, res, next) => {
+    const idMemo = req.params.idMemo;
+    const idCate = req.body.idCate;
+    Note.find({ _id: idMemo })
+        .updateOne({ $set: {category : idCate} })
         .exec()
         .then(result => {
             if (result) {
@@ -189,6 +218,8 @@ exports.delete_note_to_trash = (req, res, next) => {
         .exec()
         .then(result => {
             if (result) {
+                console.log(result);
+                
                 res.status(200).json({
                     data: result,
                     message: "delete note to trash success"

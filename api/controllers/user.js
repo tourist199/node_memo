@@ -103,7 +103,7 @@ exports.sign_up = (req, res, next) => {
                         })
                         user.save()
                             .then((rs) => {
-                                res.status(500).json({
+                                res.status(200).json({
                                     ms: "dk thanh cong",
                                     rs
                                 })
