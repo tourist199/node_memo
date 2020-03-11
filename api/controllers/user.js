@@ -101,16 +101,16 @@ exports.sign_up = (req, res, next) => {
                             password: hash,
                             name: req.body.name
                         })
-                        user.save()
-                            .then((rs) => {
-                                res.status(200).json({
-                                    ms: "dk thanh cong",
-                                    rs
-                                })
-                            })
-                            .catch(err => {
-                                console.log(err);
-                            })
+                        // user.save()
+                        //     .then((rs) => {
+                        //         res.status(200).json({
+                        //             ms: "dk thanh cong",
+                        //             rs
+                        //         })
+                        //     })
+                        //     .catch(err => {
+                        //         console.log(err);
+                        //     })
                     }
                 })
             }
